@@ -42,21 +42,26 @@ import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
+    public TextView textView1;
+    public TextView textView2;
+    public SeekBar seekBar1;
+    public SeekBar seekBar2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView textView1 = (TextView)findViewById(R.id.textViewOne);
-        TextView textView2 = (TextView)findViewById(R.id.textViewTwo);
-        SeekBar seekBar1 = (SeekBar)findViewById(R.id.seekBar1);
-        SeekBar seekBar2 = (SeekBar)findViewById(R.id.seekBar2);
+        textView1 = (TextView)findViewById(R.id.textViewOne);
+        textView2 = (TextView)findViewById(R.id.textViewTwo);
+        seekBar1 = (SeekBar)findViewById(R.id.seekBar1);
+        seekBar2 = (SeekBar)findViewById(R.id.seekBar2);
 
 
         seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                textView1.setText(progress);
+                textView1.setText(String.valueOf(progress));
             }
 
             @Override
@@ -67,6 +72,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 textView1.setTextColor(Color.parseColor("#000000"));
+            }
+        });
+
+        seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                textView2.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                textView2.setTextColor(Color.parseColor("#4169E1"));
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                textView2.setTextColor(Color.parseColor("#000000"));
             }
         });
 
