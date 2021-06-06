@@ -3,8 +3,10 @@ package com.example.funnydial;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -30,6 +32,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.UserHandle;
 import android.view.Display;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -47,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
     public SeekBar seekBar1;
     public SeekBar seekBar2;
 
+    private String mNum;
+
+    private static final int REQUEST_PHONE_CALL = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         textView2 = (TextView)findViewById(R.id.textViewTwo);
         seekBar1 = (SeekBar)findViewById(R.id.seekBar1);
         seekBar2 = (SeekBar)findViewById(R.id.seekBar2);
-
 
         seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -93,4 +99,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    public void BtnCallClicked(View v) {
+        mNum = "010"+textView1.getText().toString() + textView2.getText().toString();
+        String tel = "tel:"+mNum;
+        Intent mIntent = new Intent(Intent.ACTION_CALL, Uri.parse(tel));
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
+        }
+        else
+        {
+            startActivity(mIntent);
+        }
+    }
+
 }
